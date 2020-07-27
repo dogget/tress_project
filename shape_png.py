@@ -4,8 +4,8 @@ from PIL import ImageDraw
 import numpy as np
 from min_max_coord import import_shape
 
-def shape_png(file_name):
-    width,height,lat_max,lon_min=import_shape(file_name)
+def shape_png(file_name,path):
+    width,height,lat_max,lon_min,lat_min=import_shape(file_name)
     # Read in a shapefile
     r = shapefile.Reader(file_name)
     # Geographic x & y distance
@@ -27,12 +27,13 @@ def shape_png(file_name):
                     fill="rgb(0, 0, 0)")
     
     
-    img.save("two.png")
+    img.save(path+'.png')
+    img = Image.open(path+'.png')
     
-    img = Image.open(r'C:\Users\USER\Desktop\two.png')
+    # img = Image.open(r'C:\Users\USER\Desktop'+path+'.png')
     img.show()
   
-    img = Image.open('two.png')
+   
     arr = np.asarray(img, dtype='uint8')
     return(arr)
 

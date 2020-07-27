@@ -39,14 +39,19 @@ def import_shape(file_name):
     lat_max=s.points[0][1]
     #мин макс координаты
     for i in range(0,len(s.points)):
+        
         if s.points[i][0]>lon_max:
             lon_max=s.points[i][0]
+            
         if s.points[i][0]<lon_min:
-            lon_min=s.points[i][0]    
+            lon_min=s.points[i][0] 
+            
         if s.points[i][1]<lat_min:
             lat_min=s.points[i][1]
+            
         if s.points[i][1]>lat_max:
-            lat_max=s.points[i][1]    
+            lat_max=s.points[i][1]  
+            
     print(lon_max)
     print(lon_min)
     print(lat_min)
@@ -60,14 +65,13 @@ def import_shape(file_name):
     print(lat_length)
     print('////////////////////////////////////////////////////')
     
-    #Latitude-широта-х,Longitude-долгота-у
     
         
     width,height=pix(lon_length,lat_length,30)   
     print(height,width)
     print('////////////////////////////////////////////////////')
 
-    return(width,height,lat_max,lon_min)
+    return(width,height,lat_max,lon_min,lat_min)
 
 
 

@@ -29,4 +29,4 @@ def between_tiff_corners(file_name_mtl):
     between_ul_lr_lat=abs(UL_LAT-LR_LAT)
     between_ll_ur_lon=abs(UR_LON-LL_LON)
     
-    return(UL_LAT,LR_LON,between_ul_lr_lat,between_ll_ur_lon)
+    return(LR_LAT,UR_LON,LL_LON,UL_LAT,LR_LON,between_ul_lr_lat,between_ll_ur_lon)
