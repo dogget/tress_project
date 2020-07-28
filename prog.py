@@ -9,56 +9,49 @@ import matplotlib.pyplot as plt
 from min_max_coord import import_shape
 from shape_png import shape_png
 from open_and_show_tiff import open_and_show_tiff
-from mtl_data import mtl_data
+# from mtl_data import mtl_data
 from between_tiff_corners import between_tiff_corners
 from index_corners import index_corners 
 # from offsets_to_png_pix import offsets_to_png_pix
 
-district_name='\one\one'
-path_name='\one'
-tiff_name='\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
-band='B6'
+filepath = r'F:\Gis\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
+
+path_tiff = filepath + r'B6.TIF'
+path_shape = r'F:\Gis\two\two.shp'
+path_mtl = filepath + r'MTL.txt'
+folder = 'result/'
+name_png = 'two'
+band = 'B6'
+
+
 #импорт шейпа
-sf = shapefile.Reader(r'F:\districts' + district_name + '.shp')
+sf = shapefile.Reader(path_shape)
 shapes = sf.shapes()
 s = sf.shape(0)
 
 ##########рассчет крайних координат и высоты-широты пнг
-width,height,lat_max,lon_min,lat_min=import_shape(r'F:\districts' + district_name + '.shp')
+width,height,lon_max,lon_min,lat_min,lat_max = import_shape(path_shape)
 
 ##########вывод пнг и массива по пнг
-arr=shape_png(r'F:\districts' + district_name + '.shp',path_name)
+arr = shape_png(path_shape, width, height, folder, name_png)
 
 ##########открытие и вывод тиффа
-this_band_arr=open_and_show_tiff(r'F:\districts'+tiff_name+band+'.TIF',band)
-
-#########открыть текстовый файл тиф
-
-data = mtl_data(r'F:\districts'+tiff_name+'MTL.txt')
-
+this_band_arr = open_and_show_tiff(path_tiff, band)
 
 ########расстояние между углами тифф-картинки в градусах
-LR_LAT,UR_LON,LL_LON,UL_LAT,LR_LON,between_ul_lr_lat,between_ll_ur_lon=between_tiff_corners(r'F:\districts'+tiff_name+'MTL.txt')
+LR_LAT,UR_LON,LL_LON,UL_LAT,LR_LON,between_ul_lr_lat,between_ll_ur_lon = between_tiff_corners(path_mtl)
 
 
 #########отступы до снимка
-Max_ind_line,Min_ind_line,Max_ind_col,Min_ind_col=index_corners(this_band_arr )
+Max_ind_line,Min_ind_line,Max_ind_col,Min_ind_col = index_corners(this_band_arr)
 
 
 
-id_x=math.ceil((((lon_min-LL_LON)*(Max_ind_col-Min_ind_col))/(UR_LON-LL_LON))+Min_ind_col)
-id_y=math.ceil((((lat_min-LR_LAT)*(Max_ind_line-Min_ind_line))/(UL_LAT-LR_LAT))+Min_ind_line)
+id_x=math.ceil((((lon_min-LL_LON)*(Max_ind_col-Min_ind_col))/(UR_LON-LL_LON)) + Min_ind_col)
+id_y=math.ceil((((UL_LAT-lat_max)*(Max_ind_line-Min_ind_line))/(UL_LAT-LR_LAT)) + Min_ind_line)
 
 print(id_x)
 print(id_y)
-
-
-
-
-
-
-
-
 
 
 for a in range(0,height ):

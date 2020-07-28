@@ -1,4 +1,5 @@
 import numpy as np
+
 def index_corners(b):
     shape = b.shape
     mask = np.zeros(shape)
