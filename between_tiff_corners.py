@@ -1,6 +1,6 @@
 from utilities import getMTL
 
-def between_tiff_corners(file_name_mtl): 
+def importMTL(file_name_mtl): 
     
     data = getMTL(file_name_mtl)
     UR_LAT= float(data['CORNER_UR_LAT_PRODUCT'])
@@ -17,8 +17,4 @@ def between_tiff_corners(file_name_mtl):
     print(LL_LAT,LL_LON)
     print(LR_LAT,LR_LON)
     
-
-    between_ul_lr_lat=abs(UL_LAT-LR_LAT)
-    between_ll_ur_lon=abs(UR_LON-LL_LON)
-    
-    return(LR_LAT,UR_LON,LL_LON,UL_LAT,LR_LON,between_ul_lr_lat,between_ll_ur_lon)
+    return(LR_LAT,UR_LON,LL_LON,UL_LAT,LR_LON)
