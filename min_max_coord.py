@@ -21,10 +21,10 @@ def length(a1,b1,a2,b2):
 #перевод длины-ширины в пиксели
 def pix(lon_length_m,lat_length_m,resolution_m):
     
-    height=math.ceil(lon_length_m/resolution_m) 
-    width=math.ceil(lat_length_m/resolution_m) 
+    width=math.ceil(lon_length_m/resolution_m) 
+    height=math.ceil(lat_length_m/resolution_m) 
     
-    return(height,width)
+    return(width,height)
 
 #импорт шейпа
 def import_shape(file_name):    
@@ -66,7 +66,7 @@ def import_shape(file_name):
     
     resolution_m = 30
     width,height = pix(lon_length, lat_length, resolution_m)   
-    print(height,width)
+    print(width, height)
 
     return(width, height ,lon_max, lon_min, lat_min, lat_max)
 

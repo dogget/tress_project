@@ -3,6 +3,7 @@ from PIL import Image
 from PIL import ImageDraw
 import numpy as np
 from min_max_coord import import_shape
+import matplotlib.pyplot as plt
 
 def shape_png(file_name, width, height, folder, name_png):
     # Read in a shapefile
@@ -34,6 +35,13 @@ def shape_png(file_name, width, height, folder, name_png):
   
    
     arr = np.asarray(img, dtype='uint8')
+    # arr=arr.reshape(arr.shape[0], arr.shape[1], 3)
+    arr = np.rollaxis(arr, 1, 0)
+    plt.imshow(arr, cmap = 'gray')
+    plt.show()
+    print(arr.shape)
+   
+  
     return arr
 
 
