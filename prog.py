@@ -8,18 +8,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from min_max_coord import import_shape
 from shape_png import shape_png
-from open_and_show_tiff import open_and_show_tiff
-# from mtl_data import mtl_data
 from between_tiff_corners import importMTL
 from index_corners import index_corners 
 # from calc_indexes import getNDVI
 from landsat_to_reflectance import landsat_to_reflectance
 # from offsets_to_png_pix import offsets_to_png_pix
 
-filepath = r'F:\trees_project\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
-file_reflectance=r'F:\trees_project\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_B'
+
+filepath = r'F:\trees_data\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
+file_reflectance=r'F:\trees_data\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_B'
 path_tiff = filepath + r'B6.TIF'
-path_shape = r'F:\trees_project\districts\two\two.shp'
+path_shape = r'F:\trees_data\districts\two\two.shp'
+
+# filepath = r'E:\GIS\trees_data\LC08_L1TP_175021_20200409_20200409_01_RT_'
+
+# path_tifilepath + r'B6.TIF'
+# path_shape = r'E:\GIS\trees_data\two\two.shp'f = f
+
 path_mtl = filepath + r'MTL.txt'
 folder = 'result/'
 name_png = 'two'
@@ -36,9 +41,19 @@ width,height, lon_max, lon_min, lat_min, lat_max = import_shape(path_shape)
 
 ##########вывод пнг и массива по пнг
 arr = shape_png(path_shape, width, height, folder, name_png)
+# arr = np.rollaxis(arr, 1, 0)
+
+plt.title("region")
+plt.imshow(arr , cmap = 'gray')
+plt.show()
+
+width = arr.shape[0]
+height = arr.shape[1]
 
 # открытие и вывод тиффа
-this_band_arr = open_and_show_tiff(path_tiff, band)
+# this_band_arr = open_and_show_tiff(path_tiff, band)
+this_band_arr = tifffile.imread(path_tiff, key=0)
+this_band_arr = np.array(this_band_arr)
 
 # расстояние между углами тифф-картинки в градусах
 LR_LAT, UR_LON, LL_LON, UL_LAT, LR_LON = importMTL(path_mtl)
