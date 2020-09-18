@@ -29,16 +29,8 @@ def shape_png(file_name, width, height, folder, name_png):
     
     img.save(folder+name_png+'.png')
     img = Image.open(folder+name_png+'.png')
-    
-    # img = Image.open(r'C:\Users\USER\Desktop'+path+'.png')
-    img.show()
-  
-   
+ 
     arr = np.asarray(img, dtype='uint8')
-    # arr=arr.reshape(arr.shape[0], arr.shape[1], 3)
-    arr = np.rollaxis(arr, 1, 0)
-    plt.imshow(arr, cmap = 'gray')
-    plt.show()
     print(arr.shape)
    
   
