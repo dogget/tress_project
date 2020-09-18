@@ -12,12 +12,14 @@ from open_and_show_tiff import open_and_show_tiff
 # from mtl_data import mtl_data
 from between_tiff_corners import importMTL
 from index_corners import index_corners 
+# from calc_indexes import getNDVI
+from landsat_to_reflectance import landsat_to_reflectance
 # from offsets_to_png_pix import offsets_to_png_pix
 
-filepath = r'F:\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
-
+filepath = r'F:\trees_project\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
+file_reflectance=r'F:\trees_project\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_B'
 path_tiff = filepath + r'B6.TIF'
-path_shape = r'F:\districts\two\two.shp'
+path_shape = r'F:\trees_project\districts\two\two.shp'
 path_mtl = filepath + r'MTL.txt'
 folder = 'result/'
 name_png = 'two'
@@ -45,6 +47,10 @@ t_lon_max = UR_LON
 t_lon_min = LL_LON
 t_lat_min = LR_LAT 
 t_lat_max = UL_LAT
+
+#поправка на рефлекстанс
+q=landsat_to_reflectance(file_reflectance,path_mtl)
+
 #отступы до снимка
 Max_IdX, Min_IdX, Max_IdY, Min_IdY = index_corners(this_band_arr)
 
