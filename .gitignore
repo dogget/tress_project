@@ -1,4 +1,5 @@
 *.pyc
+*.npy
 *.manifest
 *.out
 *.7z

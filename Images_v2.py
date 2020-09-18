@@ -27,7 +27,7 @@ def getNDVI(b5, b4):
     NDVI = np.divide(a,b)
     return NDVI
 
-folder = r'F:\trees_project\indexes\Landsat_B'
+folder = r'F:\trees_data\indexes\Landsat_B'
 # b1 = np.load(folder + '1.npy')
 # b2 = np.load(folder + '2.npy')
 b4 = np.load(folder + '4.npy')
