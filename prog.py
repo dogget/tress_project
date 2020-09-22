@@ -13,13 +13,15 @@ from index_corners import index_corners
 # from calc_indexes import getNDVI
 from landsat_to_reflectance import landsat_to_reflectance
 # from offsets_to_png_pix import offsets_to_png_pix
-
+from  Images_v2 import getNDVI
+from  Images_v2 import show_ndvi
 
 filepath = r'F:\trees_data\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_'
 file_reflectance=r'F:\trees_data\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_B'
 path_tiff = filepath + r'B6.TIF'
 path_shape = r'F:\trees_data\districts\two\two.shp'
-
+index_name='\landsat_B'
+index_folder = r'F:\trees_data\indexes' + index_name
 # filepath = r'E:\GIS\trees_data\LC08_L1TP_175021_20200409_20200409_01_RT_'
 
 # path_tifilepath + r'B6.TIF'
@@ -64,7 +66,17 @@ t_lat_min = LR_LAT
 t_lat_max = UL_LAT
 
 #поправка на рефлекстанс
-q=landsat_to_reflectance(file_reflectance,path_mtl)
+# q=landsat_to_reflectance(file_reflectance,path_mtl,index_name)
+
+
+# folder = index_folder
+#     # b1 = np.load(folder + '1.npy')
+#     # b2 = np.load(folder + '2.npy')
+# b4 = np.load(folder + '4.npy')
+# b5 = np.load(folder + '5.npy')
+# ndvi=getNDVI(b4,b5,index_folder)
+# show_ndvi=show_ndvi(ndvi)
+
 
 #отступы до снимка
 Max_IdX, Min_IdX, Max_IdY, Min_IdY = index_corners(this_band_arr)
@@ -108,10 +120,11 @@ print( this_band_arr.shape,width,height)
 print(p_offset_y,t_offset_y,intersect_height)
 print(t_offset_x,p_offset_x,intersect_width)
 print(arr.shape)
+
 for a in range(0,intersect_width):
     for b in range(0,intersect_height):
-        if arr[a + p_offset_x][b + p_offset_y][0]==0 and arr[a + p_offset_x][b + p_offset_y][1]==0 and  arr[a + p_offset_x][b + p_offset_y][2]==0:
-            this_band_arr[a + t_offset_x][b + t_offset_y] = 0
+        if arr[a + p_offset_y][b + p_offset_x][0]==0 and arr[a + p_offset_y][b + p_offset_x][1]==0 and  arr[a + p_offset_y][b + p_offset_x][2]==0:
+            this_band_arr[a + t_offset_y][b + t_offset_x] = 0
             
             
 print('new band')      
