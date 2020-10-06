@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 15 18:08:58 2020
+Created on Fri Sep 25 16:33:02 2020
 
-@author: basyr
+@author: USER
 """
+
 
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
 # from calc_indexes import *
 
-# index_folder = r'F:\trees_data\indexes\Landsat_B'
-# folder = index_folder
-# # b1 = np.load(folder + '1.npy')
-# # b2 = np.load(folder + '2.npy')
-# b4 = np.load(folder + '4.npy')
-# b5 = np.load(folder + '5.npy')
+index_folder = r'F:\trees_data\indexes\Landsat_B'
+folder = index_folder
+# b1 = np.load(folder + '1.npy')
+# b2 = np.load(folder + '2.npy')
+b4 = np.load(folder + '4.npy')
+b5 = np.load(folder + '5.npy')
 # b7 = np.load(folder + '7.npy')
     
 #1 0.435–0.451 Coastal Aerosol (CA)
@@ -41,20 +42,19 @@ def getNDVI(b5, b4,index_folder):
     # b4 = np.load(folder + '4.npy')
     # b5 = np.load(folder + '5.npy')
     # b7 = np.load(folder + '7.npy')
-def show_ndvi(ndvi):   
-    NDVI   = ndvi
-    T = 0.35
-    NDVI[NDVI >= T] = 1
-    NDVI[NDVI < T] = 0
+NDVI   = getNDVI(b5, b4,index_folder)
+T = 0.35
+NDVI[NDVI >= T] = 1
+NDVI[NDVI < T] = 0
         
         
         
         
-    plt.figure(figsize=(20,10))
-    plt.title("NDVI")
-    plt.imshow(NDVI, 'Greys')
-    print(type(ndvi))
-    plt.show
+plt.figure(figsize=(20,10))
+plt.title("NDVI")
+plt.imshow(NDVI, 'Greys')
+
+
 
     # return NDVI
 # ndvi=getNDVI(b4,b5,index_folder)

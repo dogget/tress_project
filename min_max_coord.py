@@ -51,22 +51,22 @@ def import_shape(file_name):
         if s.points[i][1] > lat_max:
             lat_max=s.points[i][1]  
             
-    print(lon_max)
-    print(lon_min)
-    print(lat_min)
-    print(lat_max)
+    # print(lon_max,"\n")
+    # print(lon_min,"\n")
+    # print(lat_min,"\n")
+    # print(lat_max,"\n")
     
     
     lon_length = length(0, lon_min, 0, lon_max)
     lat_length = length(lat_min, 0, lat_max, 0)
     
-    print(lon_length, ' Length Longitude')
-    print(lat_length, ' Length Latitude')
+    print( ' Length Longitude',lon_length,"\n")
+    print( ' Length Latitude',lat_length,"\n")
     
     
     resolution_m = 30
     width,height = pix(lon_length, lat_length, resolution_m)   
-    print(width, height)
+    # print(width, height,"\n")
 
     return(width, height ,lon_max, lon_min, lat_min, lat_max)
 

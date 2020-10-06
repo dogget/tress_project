@@ -52,7 +52,7 @@ plt.show()
 # width = arr.shape[1]
 # height = arr.shape[0]
 # print(arr.shape)
-print( 'NEWNEW','WIDTH',width,'HEIGHT',height)
+print( 'NEW','WIDTH',width,"\n",'HEIGHT',height,"\n")
 # открытие и вывод тиффа
 # this_band_arr = open_and_show_tiff(path_tiff, band)
 this_band_arr = tifffile.imread(path_tiff, key=0)
@@ -117,18 +117,50 @@ else:
     intersect_height = min(height, Max_IdY -t_offset_y)
 
 
-print( this_band_arr.shape,width,height)
-print(p_offset_y,t_offset_y,intersect_height)
-print(t_offset_x,p_offset_x,intersect_width)
-print(arr.shape)
+print( this_band_arr.shape,"\n")
+print('p_offset_y=',p_offset_y,"\n"
+      't_offset_y=',t_offset_y,"\n"
+      'intersect_height=',intersect_height,"\n")
+print('t_offset_x=',t_offset_x,"\n"
+      'p_offset_x=',p_offset_x,"\n"
+      'intersect_width=',intersect_width,"\n")
+print('arr.shape=',arr.shape)
 
-for a in range(0,intersect_width):
-    for b in range(0,intersect_height):
-        if arr[a + p_offset_x][b + p_offset_y][0]==0 and arr[a + p_offset_x][b + p_offset_y][1]==0 and  arr[a + p_offset_x][b + p_offset_y][2]==0:
-            this_band_arr[a + t_offset_x][b + t_offset_y] = 0
-            
-            
+# for a in range(0,intersect_width):
+#     for b in range(0,intersect_height):
+#         if arr[a + p_offset_x][b + p_offset_y][0]==0 and arr[a + p_offset_x][b + p_offset_y][1]==0 and  arr[a + p_offset_x][b + p_offset_y][2]==0:
+#             this_band_arr[a + t_offset_x][b + t_offset_y] = 0
+
+
+
+
+
+# arr_cut=this_band_arr[t_offset_x,t_offset_y:t_offset_x+width,t_offset_y+height]
+
+arr_cut=this_band_arr[t_offset_y:t_offset_y+height,t_offset_x:t_offset_x+width]
+np.putmask(arr_cut,arr[::0]==1,1)
+print(arr.shape,arr_cut.shape )
+# print( this_band_arr.shape)
 print('new band')      
 plt.title(band)           
-plt.imshow(this_band_arr, cmap = 'gray') 
-                
+plt.imshow(arr_cut, cmap = 'gray') 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

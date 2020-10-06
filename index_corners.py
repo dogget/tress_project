@@ -20,5 +20,7 @@ def index_corners(b):
     Min_ind_line = min(ind_lines)
     Max_ind_col = max(ind_columns)
     Min_ind_col = min(ind_columns)
+    print(Max_ind_line, Min_ind_line, Max_ind_col, Min_ind_col,"\n")
+
 
     return  (Max_ind_line, Min_ind_line, Max_ind_col, Min_ind_col)
