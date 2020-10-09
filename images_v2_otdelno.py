@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep 25 16:33:02 2020
-
-@author: USER
-"""
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
@@ -33,6 +25,7 @@ def getNDVI(b5, b4,index_folder):
     b = b4 + b4
     b[b == 0] = 1
     NDVI = np.divide(a,b)
+    print('ndvi',NDVI[1500:1505,5500:5555])
     return NDVI
 
     # folder = r'F:\trees_data\indexes\Landsat_B'
@@ -53,8 +46,8 @@ NDVI[NDVI < T] = 0
 plt.figure(figsize=(20,10))
 plt.title("NDVI")
 plt.imshow(NDVI, 'Greys')
-
-
+# print('ndvi',NDVI[1500:1505,5500:5555])
+# np.save('ndvi-file',NDVI[1100:2000,5500:6000])
 
     # return NDVI
 # ndvi=getNDVI(b4,b5,index_folder)

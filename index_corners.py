@@ -1,6 +1,7 @@
 import numpy as np
 
 def index_corners(b):
+    print('работает index_corners,\n')
     shape = b.shape
     mask = np.zeros(shape)
 

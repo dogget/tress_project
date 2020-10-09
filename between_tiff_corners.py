@@ -1,6 +1,8 @@
 from utilities import getMTL
 
 def importMTL(file_name_mtl): 
+    print('работает between_tiff_corner,\n')
+
     
     data = getMTL(file_name_mtl)
     UR_LAT= float(data['CORNER_UR_LAT_PRODUCT'])

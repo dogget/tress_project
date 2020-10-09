@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 15 18:08:58 2020
-
-@author: basyr
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import gc
@@ -27,11 +20,12 @@ import gc
 #7 2.107–2.294 Shortwave NIR 2 (SWIR2)
 
 """ NDVI = (NIR − RED)/(NIR + RED) """
-def getNDVI(b5, b4,index_folder):
+def getNDVI(b5, b4):
     a = b5 - b4
     b = b4 + b4
     b[b == 0] = 1
     NDVI = np.divide(a,b)
+    # print('ndvi',NDVI[1500:1505,5500:5555])
     return NDVI
 
     # folder = r'F:\trees_data\indexes\Landsat_B'
@@ -55,6 +49,9 @@ def show_ndvi(ndvi):
     plt.imshow(NDVI, 'Greys')
     print(type(ndvi))
     plt.show
+    # print('ndvi',NDVI[1500:1505,5500:5555])
+    np.save('ndvi-nonfile',NDVI)
+    return( NDVI)
 
     # return NDVI
 # ndvi=getNDVI(b4,b5,index_folder)

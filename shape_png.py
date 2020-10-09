@@ -6,6 +6,7 @@ from min_max_coord import import_shape
 import matplotlib.pyplot as plt
 
 def shape_png(file_name, width, height, folder, name_png):
+    print('работает shape_png,\n')  
     # Read in a shapefile
     r = shapefile.Reader(file_name)
     # Geographic x & y distance

@@ -3,7 +3,7 @@ import shapefile
 
 #нахождение расстояния между точками
 def length(a1,b1,a2,b2):
-    
+    print('работает length,\n')
     a1_r = (a1*math.pi)/180
     a2_r = (a2*math.pi)/180
     b1_r = (b1*math.pi)/180
@@ -20,14 +20,15 @@ def length(a1,b1,a2,b2):
 
 #перевод длины-ширины в пиксели
 def pix(lon_length_m,lat_length_m,resolution_m):
-    
+    print('работает pix,\n')
     width=math.ceil(lon_length_m/resolution_m) 
     height=math.ceil(lat_length_m/resolution_m) 
     
     return(width,height)
 
 #импорт шейпа
-def import_shape(file_name):    
+def import_shape(file_name):
+    print('работает pix,\n')    
     sf = shapefile.Reader(file_name)
     shapes = sf.shapes()
     s = sf.shape(0)

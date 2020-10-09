@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def open_and_show_tiff(file_name, band):
+    print('работает open_and_show_tiff,\n')  
     
     image = tifffile.imread(file_name, key=0)
     this_band_arr = np.array(image)

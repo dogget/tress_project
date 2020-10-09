@@ -1,7 +1,8 @@
 import numpy as np
 import tifffile
 def landsat_to_reflectance(path_tiff, path_mtl,index_name):
-    print("REFLECTANCE")
+    print('работает landsat_to_reflectance,\n')
+
     folder = path_tiff
     folder2 = path_mtl
     data={}
