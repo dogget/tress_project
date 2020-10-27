@@ -27,7 +27,7 @@ def pix(lon_length_m,lat_length_m,resolution_m):
     return(width,height)
 
 #импорт шейпа
-def import_shape(file_name):
+def import_shape(file_name,resolution):
     print('работает pix,\n')    
     sf = shapefile.Reader(file_name)
     shapes = sf.shapes()
@@ -65,7 +65,7 @@ def import_shape(file_name):
     print( ' Length Latitude',lat_length,"\n")
     
     
-    resolution_m = 30
+    resolution_m = resolution
     width,height = pix(lon_length, lat_length, resolution_m)   
     # print(width, height,"\n")
 

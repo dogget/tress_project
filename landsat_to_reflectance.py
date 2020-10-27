@@ -1,6 +1,6 @@
 import numpy as np
 import tifffile
-def landsat_to_reflectance(path_tiff, path_mtl,index_name):
+def landsat_to_reflectance(path_tiff, path_mtl,index_name,path_reflectance):
     print('работает landsat_to_reflectance,\n')
 
     folder = path_tiff
@@ -22,5 +22,5 @@ def landsat_to_reflectance(path_tiff, path_mtl,index_name):
         c = arr*Mult + Add
         s = c/np.sin(sun)
         band = np.array(s)
-        np.save(index_name + str(i+1), band)
+        np.save(path_reflectance +index_name + str(i+1), band)
 

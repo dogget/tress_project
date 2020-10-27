@@ -14,7 +14,7 @@ from landsat_to_reflectance import landsat_to_reflectance
 from  Images_v2 import getNDVI
 from  Images_v2 import show_ndvi
 
-def raschet_procenta_ozelenenia(filepath,path_shape,reflectance_folder,name_png):
+def raschet_procenta_ozelenenia(filepath,path_shape,reflectance_folder,name_png,resolution):
     # filepath = r'F:\trees_data\districts\LC08_L1TP_175021_20200409_20200409_01_RT\LC08_L1TP_175021_20200409_20200409_01_RT_' #путь до снимка ландсат без последних двух букв названия снимка(В6)
     # file_reflectance = filepath + r'B' # не изменяется
     # path_tiff = filepath + r'B6.TIF' #не изменяется
@@ -29,7 +29,7 @@ def raschet_procenta_ozelenenia(filepath,path_shape,reflectance_folder,name_png)
     path_tiff = filepath + r'B6.TIF' #не изменяется
     path_shape = path_shape #путь до шейпа района( в названии слова,а не цифры)
     reflectance_name='\landsat_B' #не изменяется
-    reflectance_folder =reflectance_folder + reflectance_name #путь до папки где лежат рефлектансы
+    reflectance_folder_name =reflectance_folder + reflectance_name #путь до папки где лежат рефлектансы
     
     # filepath = r'E:\GIS\trees_data\LC08_L1TP_175021_20200409_20200409_01_RT_'
     
@@ -48,7 +48,7 @@ def raschet_procenta_ozelenenia(filepath,path_shape,reflectance_folder,name_png)
     s = sf.shape(0)
     
     # расчет крайних координат и высоты-широты пнг
-    width,height, lon_max, lon_min, lat_min, lat_max = import_shape(path_shape)
+    width,height, lon_max, lon_min, lat_min, lat_max = import_shape(path_shape,resolution)
     
     #вывод пнг и массива по пнг
     png_arr = shape_png(path_shape, width, height, folder, name_png)
@@ -75,12 +75,12 @@ def raschet_procenta_ozelenenia(filepath,path_shape,reflectance_folder,name_png)
     t_lat_max = UL_LAT
     
     #поправка на рефлектанс
-    # q=landsat_to_reflectance(file_reflectance,path_mtl,reflectance_name)
+    # q=landsat_to_reflectance(file_reflectance,path_mtl,reflectance_name,reflectance_folder)
     
     #вызов В4 и В5 из рефлектанса 
-    folder = reflectance_folder
-    b4 = np.load(folder + '4.npy')
-    b5 = np.load(folder + '5.npy')
+    refolder = reflectance_folder_name
+    b4 = np.load(refolder + '4.npy')
+    b5 = np.load(refolder + '5.npy')
     ndvi=getNDVI(b5,b4)
     arr_ndvi=show_ndvi(ndvi)
     print(type(arr_ndvi))
@@ -143,7 +143,7 @@ def raschet_procenta_ozelenenia(filepath,path_shape,reflectance_folder,name_png)
     plt.title(band)           
     plt.imshow(tiff_arr_cut, cmap = 'gray') 
     ozelenenie=np.sum(tiff_arr_cut)
-    print("количество зеленых пикселей",ozelenenie)
+    print("количество зеленых пикселей",'|','количество зелени в м2 ','|','год ','\n',ozelenenie,'|',ozelenenie*resolution*resolution,'|',reflectance_folder)
     return(ozelenenie)
 
 
