@@ -69,7 +69,7 @@ def import_shape(file_name,resolution):
     width,height = pix(lon_length, lat_length, resolution_m)   
     # print(width, height,"\n")
 
-    return(width, height ,lon_max, lon_min, lat_min, lat_max)
+    return(width, height, lon_min, lon_max, lat_min, lat_max)
 
 
 

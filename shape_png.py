@@ -5,7 +5,7 @@ import numpy as np
 from min_max_coord import import_shape
 import matplotlib.pyplot as plt
 
-def shape_png(file_name, width, height, folder, name_png):
+def shape_png(file_name, width, height, res_folder, name_png):
     print('работает shape_png,\n')  
     # Read in a shapefile
     r = shapefile.Reader(file_name)
@@ -28,8 +28,8 @@ def shape_png(file_name, width, height, folder, name_png):
                     fill="rgb(0, 0, 0)")
     
     
-    img.save(folder+name_png+'.png')
-    img = Image.open(folder+name_png+'.png')
+    img.save(res_folder+name_png+'.png')
+    img = Image.open(res_folder+name_png+'.png')
  
     arr = np.asarray(img, dtype='uint8')
     print(arr.shape)
