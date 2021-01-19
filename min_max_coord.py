@@ -1,14 +1,15 @@
 import math
 import shapefile
 
-#нахождение расстояния между точками
+#нахождение расстояния между точками а,б-широта-долгота
 def length(a1,b1,a2,b2):
     print('работает length,\n')
     a1_r = (a1*math.pi)/180
     a2_r = (a2*math.pi)/180
     b1_r = (b1*math.pi)/180
     b2_r = (b2*math.pi)/180
-    r = 6372795
+    r =6371302
+    # 6372795 
     
     l_a = abs((a2_r - a1_r))/2
     l_b = abs((b2_r - b1_r))/2
@@ -30,7 +31,6 @@ def pix(lon_length_m,lat_length_m,resolution_m):
 def import_shape(file_name,resolution):
     print('работает pix,\n')    
     sf = shapefile.Reader(file_name)
-    shapes = sf.shapes()
     s = sf.shape(0)
     
     lon_max=s.points[0][0]
@@ -63,6 +63,11 @@ def import_shape(file_name,resolution):
     
     print( ' Length Longitude',lon_length,"\n")
     print( ' Length Latitude',lat_length,"\n")
+    
+    print( ' lon_min',lon_min,"\n")
+    print( ' lon_max',lon_max,"\n")
+    print( ' lat_min',lat_min,"\n")
+    print( ' lat_max',lat_max,"\n")
     
     
     resolution_m = resolution

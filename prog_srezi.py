@@ -1,7 +1,7 @@
 #Latitude-широта-y, Longitude-долгота-x
 import math
-import shapefile
-import tifffile
+# import shapefile
+# import tifffile
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
@@ -9,9 +9,9 @@ from min_max_coord import import_shape
 from shape_png import shape_png
 from between_tiff_corners import importMTL
 from index_corners import index_corners 
-from  calc_ndvi import getNDVI, show_ndvi
+# from  calc_ndvi import getNDVI, show_ndvi
 
-def calc_vegetation(filepath, path_shape, name_png, resolution):
+def calc_vegetation(filepath, path_shape, name_png, resolution,b4,show_ndvi):
     '''
         filepath #путь до снимка ландсат без последних двух букв названия снимка(В6)
         path_shape #путь до шейпа района( в названии слова,а не цифры)
@@ -22,12 +22,17 @@ def calc_vegetation(filepath, path_shape, name_png, resolution):
     print(tiff_file)
     print(reflectance_file)
     print(mtl_file)
-    
+    # b4 = np.load( b4_file)
     res_folder = 'result/' # не изменяется  
     
     # расчет крайних координат и высоты-широты пнг
     width, height, p_lon_min, p_lon_max, p_lat_min, p_lat_max = import_shape(path_shape, resolution)
-    
+    # width=1000
+    # height=1000
+    # p_lon_min
+    # p_lon_max
+    # p_lat_min
+    # p_lat_max
     # вывод пнг и массива по пнг
     png_arr = shape_png(path_shape, width, height, res_folder, name_png)
     # arr = np.rollaxis(arr, 1, 0)
@@ -45,20 +50,41 @@ def calc_vegetation(filepath, path_shape, name_png, resolution):
     t_lon_min = LL_LON
     t_lat_min = LR_LAT 
     t_lat_max = UL_LAT
-
+    
+    print( ' t_lon_max',t_lon_max,"\n")
+    print( ' t_lon_min',t_lon_min,"\n")
+    print( ' t_lat_min',t_lat_min,"\n")
+    print( ' t_lat_max',t_lat_max,"\n")
+    
+    print( ' p_lon_max',p_lon_max,"\n")
+    print( ' p_lon_min',p_lon_min,"\n")
+    print( ' p_lat_min',p_lat_min,"\n")
+    print( ' p_lat_max',p_lat_max,"\n")
+    
+    # p_lon_min= 43.36744
+    # p_lon_max= UR_LON
+    # p_lat_min= LR_LAT 
+    # p_lat_max= 56.43435
     
     #вызов В4 и В5 из рефлектанса 
-    b4_n = reflectance_file[0].split('.')[0][:-1] + '4.npy'
-    b5_n = reflectance_file[0].split('.')[0][:-1] + '5.npy'
-    print(b4_n)
-    b4 = np.load(b4_n)
-    b5 = np.load(b5_n)
-    ndvi = getNDVI(b5,b4)
-    show_ndvi(ndvi)
-    print("ndvi_0_0", ndvi[0,0])
-    print("b4_0_0", b4[0,0])
+    # b4_n = reflectance_file[0].split('.')[0][:-1] + '4.npy'
+    # b5_n = reflectance_file[0].split('.')[0][:-1] + '5.npy'
+    # print(b4_n)
+    # b4 = np.load(b4_n)
+    # b5 = np.load(b5_n)
+    # ndvi = getNDVI(b5,b4)
+    # show_ndvi(ndvi)
+    # print("ndvi_0_0", ndvi[0,0])
+    # print("b4_0_0", b4[0,0])
     #отступы до снимка
     t_max_idx, t_min_idx, t_max_idy, t_min_idy = index_corners(b4)
+    
+    print( ' t_max_idx',t_max_idx,"\n")
+    print( ' t_min_idx',t_min_idx,"\n")
+    print( ' t_max_idy',t_max_idy,"\n")
+    print( ' t_min_idy',t_min_idy,"\n")
+  
+    
     
     #наложение снимка ndvi и пнг
     t_offset_x = t_min_idx
@@ -74,19 +100,19 @@ def calc_vegetation(filepath, path_shape, name_png, resolution):
         t_offset_x = math.ceil((p_lon_min - t_lon_min) * (t_max_idx - t_min_idx) / (t_lon_max - t_lon_min) + t_min_idx )
         intersect_width = min(width, t_max_idx - t_offset_x)
     else:
-        p_offset_x = width-math.ceil((lon_min - t_lon_min) * (t_max_idx - t_min_idx) / (t_lon_max - t_lon_min) + t_min_idx )
+        p_offset_x = width-math.ceil((p_lon_min - t_lon_min) * (t_max_idx - t_min_idx) / (t_lon_max - t_lon_min) + t_min_idx )
         intersect_width = min(0, width-p_offset_x)
     
     if(t_lat_max == p_lat_max):
         intersect_height = height
     elif (t_lat_max < p_lat_max):
-        p_offset_y = height -  math.ceil((t_lat_max-lat_max ) * (t_max_idy - t_min_idy) / (t_lat_max - t_lat_min) + t_min_idy )
+        p_offset_y = height -  math.ceil((t_lat_max-p_lat_max ) * (t_max_idy - t_min_idy) / (t_lat_max - t_lat_min) + t_min_idy )
         intersect_height = min(0, height-p_offset_y)
     else:
         t_offset_y = math.ceil((t_lat_max-p_lat_max ) * (t_max_idy - t_min_idy) / (t_lat_max - t_lat_min) + t_min_idy )
         intersect_height = min(height, t_max_idy - t_offset_y)
     
-    
+    print( 'шейп',b4.shape)
     print( b4.shape,"\n")
     print('p_offset_y=',p_offset_y,"\n"
           't_offset_y=',t_offset_y,"\n"
@@ -99,7 +125,7 @@ def calc_vegetation(filepath, path_shape, name_png, resolution):
     
     
     
-    tiff_arr_cut = ndvi[t_offset_y:t_offset_y+height,t_offset_x:t_offset_x+width]
+    tiff_arr_cut = show_ndvi[t_offset_y:t_offset_y+height,t_offset_x:t_offset_x+width]
     np.putmask(tiff_arr_cut,png_arr[:,:,0]!=0,0)
     print(png_arr.shape,tiff_arr_cut.shape )
     # print( this_band_arr.shape)
@@ -107,7 +133,7 @@ def calc_vegetation(filepath, path_shape, name_png, resolution):
     plt.title("band")           
     plt.imshow(tiff_arr_cut, cmap = 'gray') 
     ozelenenie = np.sum(tiff_arr_cut)
-    print("количество зеленых пикселей",'|','количество зелени в м2 ','|','год ','\n',ozelenenie,'|',ozelenenie*resolution*resolution)
+    print("количество зеленых пикселей",'|','количество зелени в м2 ','|','\n',ozelenenie,'|',ozelenenie*resolution*resolution)
     return(ozelenenie)
 
 

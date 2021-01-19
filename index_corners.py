@@ -16,6 +16,9 @@ def index_corners(b):
     for j in range(shape[1]):
        if np.sum(mask[:,j])<=5 and np.sum(mask[:,j])!=0:
            ind_columns.append(j)
+    
+    print('ind_lines',ind_lines,"\n")
+    print('ind_columns',ind_columns,"\n")
 
     Max_ind_line = max(ind_lines)
     Min_ind_line = min(ind_lines)
