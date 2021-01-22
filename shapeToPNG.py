@@ -1,3 +1,10 @@
+import shapefile
+from PIL import Image
+from PIL import ImageDraw
+import numpy as np
+from min_max_coord import import_shape
+import matplotlib.pyplot as plt
+
 import math
 import shapefile
 
@@ -8,7 +15,7 @@ def length(a1,b1,a2,b2):
     a2_r = (a2*math.pi)/180
     b1_r = (b1*math.pi)/180
     b2_r = (b2*math.pi)/180
-    r =6371302
+    r = 6371302
     # 6372795 
     
     l_a = abs((a2_r - a1_r))/2
@@ -16,16 +23,6 @@ def length(a1,b1,a2,b2):
     x = 2*math.asin( (math.sin(l_a)**2 + math.cos(a1_r)*math.cos(a2_r) * math.sin(l_b)**2 ) **0.5 )
     length = x*r # в м
     return length
-
-
-
-#перевод длины-ширины в пиксели
-def pix(lon_length_m,lat_length_m,resolution_m):
-    print('работает pix,\n')
-    width=math.ceil(lon_length_m/resolution_m) 
-    height=math.ceil(lat_length_m/resolution_m) 
-    
-    return(width,height)
 
 #импорт шейпа
 def import_shape(file_name,resolution):
@@ -69,9 +66,9 @@ def import_shape(file_name,resolution):
     print( ' lat_min',lat_min,"\n")
     print( ' lat_max',lat_max,"\n")
     
+    width = math.ceil(lon_length/resolution) 
+    height = math.ceil(lat_length/resolution)
     
-    resolution_m = resolution
-    width,height = pix(lon_length, lat_length, resolution_m)   
     # print(width, height,"\n")
 
     return(width, height, lon_min, lon_max, lat_min, lat_max)
@@ -80,3 +77,35 @@ def import_shape(file_name,resolution):
 
 # width,height,lat_max,lon_min=import_shape(r'E:\districts\two\two.shp')
 # print(width,height,lat_max,lon_min)
+
+def shapeToPNG(file_name, width, height, res_folder, name_png):
+    print('работает shape_png,\n')  
+    # Read in a shapefile
+    r = shapefile.Reader(file_name)
+    # Geographic x & y distance
+    xdist = r.bbox[2] - r.bbox[0]
+    ydist = r.bbox[3] - r.bbox[1]
+    # Image width & height
+    iwidth =  width
+    iheight = height
+    xratio = iwidth/xdist
+    yratio = iheight/ydist
+    pixels = []
+    for x,y in r.shapes()[0].points:
+      px = int(iwidth - ((r.bbox[2] - x) * xratio))
+      py = int((r.bbox[3] - y) * yratio)
+      pixels.append((px,py))
+    img = Image.new("RGB", (iwidth, iheight), "white")
+    draw = ImageDraw.Draw(img)
+    draw.polygon(pixels, outline="rgb(0, 0, 0)", fill="rgb(0, 0, 0)")
+     
+    img.save(res_folder + name_png + '.png')
+    img = Image.open(res_folder + name_png + '.png')
+ 
+    arr = np.asarray(img, dtype = 'uint8')
+    print(arr.shape)  
+  
+    return arr
+
+
+

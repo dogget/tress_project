@@ -1,14 +1,12 @@
 #Latitude-широта-y, Longitude-долгота-x
 import math
-# import shapefile
-# import tifffile
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
 from min_max_coord import import_shape
-from shape_png import shape_png
-from between_tiff_corners import importMTL
-from index_corners import index_corners 
+from shapeToPNG import shapeToPNG
+from calc_offsets import cornersOffset 
+from utilities import getCoordCornersMTL
 # from  calc_ndvi import getNDVI, show_ndvi
 
 def calc_vegetation(filepath, path_shape, name_png, resolution,b4,show_ndvi):
@@ -35,22 +33,12 @@ def calc_vegetation(filepath, path_shape, name_png, resolution,b4,show_ndvi):
     # p_lat_max
     # вывод пнг и массива по пнг
     png_arr = shape_png(path_shape, width, height, res_folder, name_png)
-    # arr = np.rollaxis(arr, 1, 0)
-    
-    plt.title("region")
-    plt.imshow(png_arr , cmap = 'gray')
-    plt.show()
     
     print( 'WIDTH',width,"\n",'HEIGHT',height,"\n")
     
     # расстояние между углами тифф-картинки в градусах
-    LR_LAT, UR_LON, LL_LON, UL_LAT, LR_LON = importMTL(mtl_file)
-    
-    t_lon_max = UR_LON
-    t_lon_min = LL_LON
-    t_lat_min = LR_LAT 
-    t_lat_max = UL_LAT
-    
+    t_lat_min, t_lat_max, t_lon_min, t_lon_max = getCoordCornersMTL(mtl_file)
+     
     print( ' t_lon_max',t_lon_max,"\n")
     print( ' t_lon_min',t_lon_min,"\n")
     print( ' t_lat_min',t_lat_min,"\n")
@@ -61,31 +49,15 @@ def calc_vegetation(filepath, path_shape, name_png, resolution,b4,show_ndvi):
     print( ' p_lat_min',p_lat_min,"\n")
     print( ' p_lat_max',p_lat_max,"\n")
     
-    # p_lon_min= 43.36744
-    # p_lon_max= UR_LON
-    # p_lat_min= LR_LAT 
-    # p_lat_max= 56.43435
+    t_max_idx, t_min_idx, t_max_idy, t_min_idy = cornersOffset(b4)
     
-    #вызов В4 и В5 из рефлектанса 
-    # b4_n = reflectance_file[0].split('.')[0][:-1] + '4.npy'
-    # b5_n = reflectance_file[0].split('.')[0][:-1] + '5.npy'
-    # print(b4_n)
-    # b4 = np.load(b4_n)
-    # b5 = np.load(b5_n)
-    # ndvi = getNDVI(b5,b4)
-    # show_ndvi(ndvi)
-    # print("ndvi_0_0", ndvi[0,0])
-    # print("b4_0_0", b4[0,0])
-    #отступы до снимка
-    t_max_idx, t_min_idx, t_max_idy, t_min_idy = index_corners(b4)
+    # corners = [("lon_min", p_lon_min, t_lon_min, t_min_idx), ]
     
     print( ' t_max_idx',t_max_idx,"\n")
     print( ' t_min_idx',t_min_idx,"\n")
     print( ' t_max_idy',t_max_idy,"\n")
     print( ' t_min_idy',t_min_idy,"\n")
   
-    
-    
     #наложение снимка ndvi и пнг
     t_offset_x = t_min_idx
     t_offset_y = t_min_idy
@@ -123,10 +95,8 @@ def calc_vegetation(filepath, path_shape, name_png, resolution,b4,show_ndvi):
     print('png_arr.shape=',png_arr.shape)
     
     
-    
-    
-    tiff_arr_cut = show_ndvi[t_offset_y:t_offset_y+height,t_offset_x:t_offset_x+width]
-    np.putmask(tiff_arr_cut,png_arr[:,:,0]!=0,0)
+    tiff_arr_cut = show_ndvi[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]
+    np.putmask(tiff_arr_cut,png_arr[:,:,0] != 0,0)
     print(png_arr.shape,tiff_arr_cut.shape )
     # print( this_band_arr.shape)
     print('new band')      
