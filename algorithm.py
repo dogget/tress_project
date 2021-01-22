@@ -38,25 +38,11 @@ def calc_vegetation(filepath, path_shape, name_png, resolution,b4,show_ndvi):
     
     # расстояние между углами тифф-картинки в градусах
     t_lat_min, t_lat_max, t_lon_min, t_lon_max = getCoordCornersMTL(mtl_file)
-     
-    print( ' t_lon_max',t_lon_max,"\n")
-    print( ' t_lon_min',t_lon_min,"\n")
-    print( ' t_lat_min',t_lat_min,"\n")
-    print( ' t_lat_max',t_lat_max,"\n")
-    
-    print( ' p_lon_max',p_lon_max,"\n")
-    print( ' p_lon_min',p_lon_min,"\n")
-    print( ' p_lat_min',p_lat_min,"\n")
-    print( ' p_lat_max',p_lat_max,"\n")
-    
     t_max_idx, t_min_idx, t_max_idy, t_min_idy = cornersOffset(b4)
     
-    # corners = [("lon_min", p_lon_min, t_lon_min, t_min_idx), ]
+    corners = {"lon_min": (t_lon_min, t_min_idx), "lon_max": (t_lon_max, t_max_idx), 
+               "lat_min": (t_lat_min, t_min_idy), "lat_max": (t_lat_max, t_max_idy)}
     
-    print( ' t_max_idx',t_max_idx,"\n")
-    print( ' t_min_idx',t_min_idx,"\n")
-    print( ' t_max_idy',t_max_idy,"\n")
-    print( ' t_min_idy',t_min_idy,"\n")
   
     #наложение снимка ndvi и пнг
     t_offset_x = t_min_idx

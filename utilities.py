@@ -40,8 +40,8 @@ def getCoordCornersMTL(file_name_mtl):
     max_lon = max(lon)
     
     # print("min lat", min_lat,"\n")
-    # print("min_lon",min_lon,"\n")
-    # print("max_lat",max_lat,"\n")
-    # print("max lon",max_lon,"\n")
+    # print("min_lon", min_lon,"\n")
+    # print("max_lat", max_lat,"\n")
+    # print("max lon", max_lon,"\n")
     
     return(min_lat, max_lat, min_lon, max_lon)

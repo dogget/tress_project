@@ -14,7 +14,7 @@ def cornersOffset(b):
            break
        
     for i in range(shape[0]):
-       if np.sum(mask[shape[0] - i,:]) > 0:
+       if np.sum(mask[shape[0] - i - 1,:]) > 0:
            ind_lines.append(i)
            break
 
@@ -25,7 +25,7 @@ def cornersOffset(b):
            break
            
     for j in range(shape[1]):
-       if np.sum(mask[:, shape[1] - j]) > 0:
+       if np.sum(mask[:, shape[1] - j - 1]) > 0:
            ind_columns.append(j)
            break
     
