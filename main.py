@@ -5,12 +5,12 @@ from landsatToReflectance import landsat_to_reflectance
 from calcNDVI import getNDVI
 from calcNDVI import show_ndvi
 
-#test
+#test_alexandra
 #путь до снимка ландсат без последних двух букв названия снимка(В6)
-# filepath = r'E:/GIS/trees_data/LC08_L1TP_175021_20200409_20200409_01_RT/' 
+filepath = r'E:/GIS/trees_data/LC08_L1TP_175021_20200409_20200409_01_RT/' 
 
 #2015
-filepath = r'E:/GIS/trees_data/LC08_L1TP_175021_20200409_20200409_01_RT/' 
+# filepath = r'E:/GIS/trees_data/LC08_L1TP_175021_20200409_20200409_01_RT/' 
 # reflectance_folder = r'2015' #путь до папки где лежат рефлектансы
 
 #2016
@@ -53,9 +53,7 @@ districs = {'sovetsky': 'sovetsky', 'sormovsky': 'sormovsky', 'prioksky' : 'prio
 for name_png in districs:
     
     path_shape=r'districts/'
-    
     shapename = path_shape + name_png + "/" + name_png + ".shp"
-    
     resolution = 30 #разрешение тиффа 
     
     a = calc_vegetation(filepath, shapename, resolution, show_ndvi)

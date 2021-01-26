@@ -48,10 +48,10 @@ def calc_vegetation(filepath, path_shape, resolution, show_ndvi):
     # np.putmask(B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width], png_arr[:,:,0] != 0, np.uint16(0.5*B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]))
     # B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width] = 2*B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]
     plt.title(path_shape)
-    plt.imshow(B4[t_offset_y - height:t_offset_y, t_offset_x:t_offset_x + width], cmap = 'gray')
+    plt.imshow(B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width], cmap = 'gray')
     plt.show()
 
-    B4[t_offset_y - height:t_offset_y, t_offset_x:t_offset_x + width] = -100
+    B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width] = -100
     
     plt.title(path_shape)
     plt.imshow(B4, cmap = 'gray')
