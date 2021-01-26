@@ -1,4 +1,5 @@
 import glob
+from shapeToPNG import shapeToPNG, import_shape
 # import numpy as np
 from algorithm import calc_vegetation
 from landsatToReflectance import landsat_to_reflectance
@@ -45,15 +46,34 @@ filepath = r'E:/GIS/trees_data/LC08_L1TP_175021_20200409_20200409_01_RT/'
 
 # path_shape=r'districts\sovetsky\bigpy.shp'
 # path_shape=r'districts\sovetsky\sovetsky.shp' 
-    
+
+resolution = 30 #разрешение тиффа 
 districs = {'sovetsky': 'sovetsky', 'sormovsky': 'sormovsky', 'prioksky' : 'prioksky', 'nizhegorodsky' : 'nizhegorodsky',
             'moscow' : 'moscow', 'leninsky' : 'leninsky', 'kanavinsky' : 'kanavinsky',
             'avtozavodsky': 'avtozavodsky'}
 
+lon = []
+lat = []
+
 for name_png in districs:
-    
     path_shape=r'districts/'
     shapename = path_shape + name_png + "/" + name_png + ".shp"
-    resolution = 30 #разрешение тиффа 
+    w, h, lon_min, lon_max, lat_min, lat_max = import_shape(shapename, resolution) 
+    lon.append(lon_min)
+    lon.append(lon_max)
+    lat.append(lat_min)
+    lat.append(lat_max)
+
+lon_min = min(lon)
+lon_max = max(lon)
+lat_min = min(lat)
+lat_max = max(lat)
+
+print("lon : [", lon_min, ",", lon_max, '], lat: [', lat_min, ', ', lat_max, ']' )
+
+for name_png in districs:    
+    path_shape=r'districts/'
+    shapename = path_shape + name_png + "/" + name_png + ".shp"
+    
     
     a = calc_vegetation(filepath, shapename, resolution, show_ndvi)
