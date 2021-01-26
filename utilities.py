@@ -16,8 +16,6 @@ def getMTL(mtl):
     return data
 
 def getCoordCornersMTL(file_name_mtl): 
-    print('работает between_tiff_corner,\n')
-
     
     data = getMTL(file_name_mtl)
     UR_LAT = float(data['CORNER_UR_LAT_PRODUCT'])

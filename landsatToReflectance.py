@@ -37,12 +37,4 @@ def landsat_to_reflectance(path_tiff):
         c=None
         # band = np.array(s)
         np.save(npy_name, s)
-        s=None
-        
-
-def landsat_to_arr(path_tiff):
-    tiff_file = glob.glob(path_tiff + '*4.TIF')
-    # npy_name = tiff_file.split('.')[0] + '.npy'
-    b4 = tifffile.imread(tiff_file, key=0)
-
-    return(b4)
+        s = None

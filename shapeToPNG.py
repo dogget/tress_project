@@ -2,9 +2,7 @@ import shapefile
 from PIL import Image
 from PIL import ImageDraw
 import numpy as np
-
 import math
-import shapefile
 
 #нахождение расстояния между точками а,б-широта-долгота в МЕТРАХ
 def length(a1, b1, a2, b2):
@@ -76,7 +74,8 @@ def import_shape(file_name,resolution):
 # width,height,lat_max,lon_min=import_shape(r'E:\districts\two\two.shp')
 # print(width,height,lat_max,lon_min)
 
-def shapeToPNG(file_name, width, height, res_folder, name_png):  
+def shapeToPNG(file_name, width, height, res_folder):  
+    name_png = file_name.split('/')[-1].split('.')[0]
     # Read in a shapefile
     r = shapefile.Reader(file_name)
     # Geographic x & y distance
