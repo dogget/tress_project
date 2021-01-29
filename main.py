@@ -5,6 +5,7 @@ from algorithm import calc_vegetation
 from landsatToReflectance import landsat_to_reflectance
 from calcNDVI import getNDVI
 from calcNDVI import show_ndvi
+from showTIFF import calcTIFF
 
 #test_alexandra
 #путь до снимка ландсат без последних двух букв названия снимка(В6)
@@ -47,6 +48,8 @@ filepath = r'E:/GIS/trees_data/LC08_L1TP_175021_20200409_20200409_01_RT/'
 # path_shape=r'districts\sovetsky\bigpy.shp'
 # path_shape=r'districts\sovetsky\sovetsky.shp' 
 
+B4, t_corners = calcTIFF(filepath)
+
 resolution = 30 #разрешение тиффа 
 districs = {'sovetsky': 'sovetsky', 'sormovsky': 'sormovsky', 'prioksky' : 'prioksky', 'nizhegorodsky' : 'nizhegorodsky',
             'moscow' : 'moscow', 'leninsky' : 'leninsky', 'kanavinsky' : 'kanavinsky',
@@ -74,6 +77,4 @@ print("lon : [", lon_min, ",", lon_max, '], lat: [', lat_min, ', ', lat_max, ']'
 for name_png in districs:    
     path_shape=r'districts/'
     shapename = path_shape + name_png + "/" + name_png + ".shp"
-    
-    
-    a = calc_vegetation(filepath, shapename, resolution, show_ndvi)
+    a = calc_vegetation(B4, t_corners, shapename, resolution, show_ndvi)

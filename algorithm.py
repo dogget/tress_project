@@ -5,27 +5,15 @@ import numpy as np
 import glob
 import matplotlib.pyplot as plt
 from shapeToPNG import shapeToPNG, import_shape
-from calcOffsets import cornersOffset, calcIntersection
-from utilities import getCoordCornersMTL
+from calcOffsets import calcIntersection
+
 # from  calc_ndvi import getNDVI, show_ndvi
 
-def calc_vegetation(filepath, path_shape, resolution, show_ndvi):
+def calc_vegetation(B4, t_corners, path_shape, resolution, show_ndvi):
     '''
         filepath #путь до снимка ландсат без последних двух букв названия снимка(В6)
         path_shape #путь до шейпа района( в названии слова,а не цифры)
     '''
-    tiff_file = glob.glob(filepath + '*B6.TIF')[0] 
-    mtl_file  = glob.glob(filepath + r'*MTL.txt')[0]
-    
-    B4 = tifffile.imread(tiff_file, key = 0)    
-    # расстояние между углами тифф-картинки в градусах
-    t_lat_min, t_lat_max, t_lon_min, t_lon_max = getCoordCornersMTL(mtl_file)
-    t_max_idx, t_min_idx, t_max_idy, t_min_idy = cornersOffset(B4)
-    
-    t_corners = {"lon_min": (t_lon_min, t_min_idx), "lon_max": (t_lon_max, t_max_idx), 
-               "lat_min": (t_lat_min, t_min_idy), "lat_max": (t_lat_max, t_max_idy)}
-    
-    print("t_corners", t_corners)
     
     res_folder = 'result/' # не изменяется  
     
@@ -45,13 +33,14 @@ def calc_vegetation(filepath, path_shape, resolution, show_ndvi):
    
     print('png_arr.shape=', png_arr.shape)
     
-    # np.putmask(B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width], png_arr[:,:,0] != 0, np.uint16(0.5*B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]))
+    k = B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]
+    np.putmask(k, png_arr[:,:,0] == 0, np.uint16(0.5*B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]))
     # B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width] = 2*B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width]
     plt.title(path_shape)
     plt.imshow(B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width], cmap = 'gray')
     plt.show()
 
-    B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width] = -100
+    B4[t_offset_y:t_offset_y + height, t_offset_x:t_offset_x + width] = k
     
     plt.title(path_shape)
     plt.imshow(B4, cmap = 'gray')
