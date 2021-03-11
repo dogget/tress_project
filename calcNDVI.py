@@ -21,22 +21,21 @@ def getNDVI(filepath):
     b = b4 + b4
     b[b == 0] = 1
     NDVI = np.divide(a,b)
+    np.save(filepath + "ndvi.npy", NDVI)
     a = None
     b = None
     return NDVI
 
-def show_ndvi(just_ndvi):   
-    NDVI = np.copy(just_ndvi)
-    T = 0.35
-    NDVI[NDVI >= T] = 1
-    NDVI[NDVI < T] = 0
-    np.save("ndvi", NDVI)
+def show_ndvi(just_ndvi, T):   
+    ''' T = 0.35 '''
+    NDVI = np.zeros(just_ndvi.shape, np.uint8)
+    NDVI[just_ndvi >= T] = 1
         
     plt.figure(figsize=(20,10))
     plt.title("NDVI")
     plt.imshow(NDVI, 'Greys')
+    plt.show()
     # print(type(NDVI))
-    plt.show
     return(NDVI)
     
     # print('ndvi',NDVI[1500:1505,5500:5555])
