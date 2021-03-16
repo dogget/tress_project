@@ -9,18 +9,30 @@ import matplotlib.image as mpimg
 
 #путь до снимка ландсат без последних двух букв названия снимка(В6)
 
-prefix = "E:/GIS/trees_data/"
-
+# prefix = "E:/GIS/trees_data/"
+prefix = "D:\other/tress_project\LC08_L1TP_175021_20200409_20200409_01_RT/"
 tiffs = {}
-tiffs["test"] = prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT/' 
+# tiffs["test"] = prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT/'
+
+tiffs["test"] = prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT'
 # tiffs.append(("2015", prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT/' ))
 # tiffs.append(("2016", prefix + r'LC08_L1TP_175020_20160719_20170323_01_T1/' ))
 # tiffs.append(("2018", prefix + r'LC08_L1TP_175021_20180623_20180703_01_T1/' ))
 # tiffs.append(("2020", prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT/'))
+# LC08_L1TP_174021_20130704_20170503_01_T1
+# LC08_L1TP_175021_20190813_20190820_01_T1
+# LC08_L1TP_175021_20140714_20170421_01_T1
+# LC08_L1TP_175021_20180810_20180815_01_T1
+# LC08_L1TP_174021_20150827_20170405_01_T1
+# LC08_L1TP_174021_20200925_20201005_01_T1
+# LC08_L1TP_175020_20160719_20170323_01_T1
+# LC08_L1TP_175021_20200409_20200409_01_RT
+# LC08_L1TP_175021_20180623_20180703_01_T1
+# LC08_L1TP_174021_20150608_20170408_01_T1
 
 # NDVI = (Band 5 – Band 4) / (Band 5 + Band 4)
-#  Natural Color (R = 4, G = 3, B = 2)
-#  2,3,4,5
+#   Natural Color (R = 4, G = 3, B = 2)
+#   2,3,4,5
 bands = [2,3,4,5]
 for f in tiffs:
     filepath = tiffs[f]
@@ -41,7 +53,7 @@ for f in tiffs:
     
     # посчитать и сохранить на диск ndvi и rgb
     
-    tiff_file = glob.glob(filepath + '*B6.TIF')[0] 
+    tiff_file = glob.glob(filepath + '*B5.TIF')[0] 
     band = tifffile.imread(tiff_file, key = 0)    
     
     
@@ -54,7 +66,8 @@ for f in tiffs:
     people = {'sovetsky': 148909, 'sormovsky': 166996, 'prioksky' : 94956, 'nizhegorodsky' : 132425,
                 'moscow' : 124515, 'leninsky' : 141738, 'kanavinsky' : 158000,
                 'avtozavodsky': 300436 }
-    
+    ideal_area_km2 = {'sovetsky':31,'sormovsky':100, 'prioksky' : 23, 'nizhegorodsky' :67,
+                      'moscow' : 30, 'leninsky' :27,'kanavinsky' : 48, 'avtozavodsky': 94}
     import matplotlib.pyplot as plt
     plt.imshow(band[2000:3500, 5900:7500])
     plt.show()
@@ -81,10 +94,11 @@ for f in tiffs:
         plt.show()
      
         area = np.sum(png_arr)
+        area_km2=area*resolution*resolution/1000000
         ozelenenie = np.sum(t)
         m2 = ozelenenie*resolution*resolution
         print(f, name_png, "pixels = ",ozelenenie ,'в м2 =',m2)
-        print(f, name_png, ozelenenie, area, "procent", ozelenenie * 100/area)
+        print(f, name_png,'whole area pix',area, 'whole area km2',area_km2,'(', ideal_area_km2[name_png],')', "procent", ozelenenie * 100/area)
         print(f, name_png, "for one person", m2 / people[name_png])
             
         
