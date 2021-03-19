@@ -6,15 +6,17 @@ from shapeToPNG import shapeToPNG_GDAL
 import tifffile
 import matplotlib.image as mpimg
 
-
+area_city_m2 = 460000000
+city_area_pix = 0
+resolution_m2_for_one_pix = 3.4269091860498424
 #путь до снимка ландсат без последних двух букв названия снимка(В6)
 
 # prefix = "E:/GIS/trees_data/"
-prefix = "D:\other/tress_project\LC08_L1TP_175021_20200409_20200409_01_RT/"
+prefix = "D:\other/tress_project\LC08_L1TP_175021_20180623_20180703_01_T1/"
 tiffs = {}
 # tiffs["test"] = prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT/'
 
-tiffs["test"] = prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT'
+tiffs["test"] = prefix + r'LC08_L1TP_175021_20180623_20180703_01_T1'
 # tiffs.append(("2015", prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT/' ))
 # tiffs.append(("2016", prefix + r'LC08_L1TP_175020_20160719_20170323_01_T1/' ))
 # tiffs.append(("2018", prefix + r'LC08_L1TP_175021_20180623_20180703_01_T1/' ))
@@ -34,6 +36,7 @@ tiffs["test"] = prefix + r'LC08_L1TP_175021_20200409_20200409_01_RT'
 #   Natural Color (R = 4, G = 3, B = 2)
 #   2,3,4,5
 bands = [2,3,4,5]
+
 for f in tiffs:
     filepath = tiffs[f]
     
@@ -94,12 +97,21 @@ for f in tiffs:
         plt.show()
      
         area = np.sum(png_arr)
-        area_km2=area*resolution*resolution/1000000
+        # area_km2=area*resolution*resolution/1000000
         ozelenenie = np.sum(t)
         m2 = ozelenenie*resolution*resolution
+        area_km2 = resolution_m2_for_one_pix*area/1000000
         print(f, name_png, "pixels = ",ozelenenie ,'в м2 =',m2)
         print(f, name_png,'whole area pix',area, 'whole area km2',area_km2,'(', ideal_area_km2[name_png],')', "procent", ozelenenie * 100/area)
         print(f, name_png, "for one person", m2 / people[name_png])
             
         
+        print('складываю')
+        city_area_pix += area
+# print('area of the city pix',city_area_pix)
+# resolution_m2_for_one_pix = area_city_m2 / city_area_pix
+# print('resolution_m2_for_one_pix',resolution_m2_for_one_pix)
+# sovet_area_m2 = 
+ 
+
     # plt.imshow(band[2000:3500, 5900:7800])
